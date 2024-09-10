@@ -1,6 +1,8 @@
 import torch
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
+from scipy.fft import fft
 
 # YOLOv5の事前学習モデルをロード
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
@@ -32,7 +34,7 @@ def calculate_rotation(bbox):
 # 動画のFPSを取得
 fps = cap.get(cv2.CAP_PROP_FPS)
 
-# 3秒ごとのフレーム数を計算
+# 5秒ごとのフレーム数を計算
 seconds_per_segment = 3
 frames_per_segment = int(fps * seconds_per_segment)
 
@@ -111,6 +113,40 @@ while cap.isOpened():
 # 動画のキャプチャを解放し、ウィンドウを閉じる
 cap.release()
 cv2.destroyAllWindows()
+
+# リズムを評価するための関数
+def evaluate_rhythm(data, fps, label):
+    # FFT（高速フーリエ変換）を適用
+    data_fft = fft(data)
+    
+    # 周波数の絶対値を取得（複素数なので絶対値を取る）
+    freq_magnitudes = np.abs(data_fft)
+    
+    # 周波数軸を計算
+    freqs = np.fft.fftfreq(len(data), 1 / fps)
+    
+    # プロットで可視化
+    plt.figure(figsize=(10, 4))
+    plt.plot(freqs[:len(freqs)//2], freq_magnitudes[:len(freq_magnitudes)//2])  # 正の周波数のみプロット
+    plt.title(f"{label} Frequency Spectrum")
+    plt.xlabel("Frequency (Hz)")
+    plt.ylabel("Amplitude")
+    plt.show()
+    
+    # メインの周波数成分を取得（最も強い周波数成分）
+    main_freq = freqs[np.argmax(freq_magnitudes)]
+    
+    # リズムの判定
+    if main_freq > 0:
+        period = 1 / main_freq
+        print(f"{label}: 周期的な動きが検出されました。主要な周波数: {main_freq:.4f} Hz (周期: {period:.2f} 秒)")
+    else:
+        print(f"{label}: 周期的な動きが検出されませんでした。リズムが不規則です。")
+
+# リズムを評価
+print("\n--- リズムの分析結果 ---")
+evaluate_rhythm(all_speeds, fps, "Speed (前後移動)")
+evaluate_rhythm(all_rotations, fps, "Rotation (回転)")
 
 # 最終結果の表示
 print("\n--- 各区間の分析結果 ---")
