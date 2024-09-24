@@ -8,7 +8,7 @@ from scipy.fft import fft
 model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 
 # 動画を読み込む
-cap = cv2.VideoCapture('dancemovie3.mp4')
+cap = cv2.VideoCapture('dancemovie4.mp4')
 
 # 初期設定
 prev_center = None
@@ -152,3 +152,12 @@ evaluate_rhythm(all_rotations, fps, "Rotation (回転)")
 print("\n--- 各区間の分析結果 ---")
 for i, (speed, rotation, distance) in enumerate(zip(all_speeds, all_rotations, all_distances), 1):
     print(f"区間 {i}: 平均スピード: {speed:.4f} メートル/秒, 平均回転角度: {rotation:.2f} 度/フレーム, 移動距離: {distance:.2f} メートル")
+
+from robot_analyze import read_robot_data, analyze_robot_data
+
+# JSONファイルのパス
+json_file = 'robotData.json'
+
+# データを読み込んで解析
+robot_data = read_robot_data(json_file)
+analyze_robot_data(robot_data)
