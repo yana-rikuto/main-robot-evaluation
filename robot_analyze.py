@@ -12,15 +12,15 @@ def analyze_robot_data(data):
         speed = action['speed']
         rotation_speed = action['rotationSpeed']
         action_type = action['action']
-        time = action['time']
+        duration = action['duration']
         
         print("\n--- ロボットの特徴量分析結果 ---")
         if speed > 0 and rotation_speed == 0:
-            print(f"動作 {i+1}: 前進 - 速度: {speed}m/s、時間: {time}秒")
+            print(f"動作 {i+1}: 前進 - 速度: {speed}m/s、時間: {duration}秒")
         elif speed == 0 and rotation_speed > 0:
-            print(f"動作 {i+1}: 回転 - 回転速度: {rotation_speed}度/秒、時間: {time}秒")
+            print(f"動作 {i+1}: 回転 - 回転速度: {rotation_speed}度/秒、時間: {duration}秒")
         else:
-            print(f"動作 {i+1}: 未知の動作 - 速度: {speed}, 回転速度: {rotation_speed}, 時間: {time}秒")
+            print(f"動作 {i+1}: 未知の動作 - 速度: {speed}, 回転速度: {rotation_speed}, 時間: {duration}秒")
 
 # メイン関数
 def main():
