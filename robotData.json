@@ -3,18 +3,55 @@
     "speed": 1.0,
     "rotationSpeed": 0.0,
     "action": "move forward",
-    "time": 0.9997958
+    "duration": 0.9997958
   },
   {
     "speed": 0.0,
     "rotationSpeed": 90.0,
     "action": "rotate",
-    "time": 3.000398
+    "duration": 3.000398
   },
   {
     "speed": 1.0,
     "rotationSpeed": 0.0,
     "action": "move forward",
-    "time": 3.999897
+    "duration": 3.999897
+  },
+  {
+    "speed": 1.0,
+    "rotationSpeed": 0.0,
+    "action": "move forward",
+    "duration": 2.99951315
+  },
+  {
+    "speed": 0.0,
+    "rotationSpeed": 90.0,
+    "action": "rotate",
+    "duration": 1.99995565
+  },
+  {
+    "speed": 1.0,
+    "rotationSpeed": 0.0,
+    "action": "move forward",
+    "duration": 2.00004339
+  },
+
+  {
+    "speed": 1.0,
+    "rotationSpeed": 0.0,
+    "action": "move forward",
+    "duration": 2.00032568
+  },
+  {
+    "speed": 0.0,
+    "rotationSpeed": 90.0,
+    "action": "rotate",
+    "duration": 8.00009251
+  },
+  {
+    "speed": 1.0,
+    "rotationSpeed": 0.0,
+    "action": "move forward",
+    "duration": 1.00039864
   }
 ]
