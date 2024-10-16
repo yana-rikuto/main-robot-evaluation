@@ -61,25 +61,25 @@ def preprocess_data():
 
     # テストデータの前処理
     test_videos = []
-    test_labels = []
+    # test_labels = []
     for index, row in labels_df.iterrows():
         video_path = './data/test/new_video.mp4'
         print(f"テスト動画を処理中: {video_path}")
         frames = load_video_frames(video_path, FRAME_SIZE, NUM_FRAMES)
         if frames is not None and frames.shape[0] == NUM_FRAMES:
             test_videos.append(frames)
-            test_labels.append(row[['score1', 'score2', 'score3']].values)
+            # test_labels.append(row[['score1', 'score2', 'score3']].values)
         else:
             print(f"エラー: フレーム数不足または読み込みエラーのためスキップ: {video_path}")
 
     test_videos = np.array(test_videos)
-    test_labels = np.array(test_labels)
+    # test_labels = np.array(test_labels)
 
     # データの保存
     np.save('./data/train_videos.npy', train_videos)
     np.save('./data/train_labels.npy', train_labels)
     np.save('./data/test_videos.npy', test_videos)
-    np.save('./data/test_labels.npy', test_labels)
+    # np.save('./data/test_labels.npy', test_labels)
     print("データの前処理が完了しました。")
 
 if __name__ == "__main__":
