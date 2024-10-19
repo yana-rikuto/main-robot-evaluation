@@ -7,10 +7,10 @@ import pandas as pd
 TRAIN_DIR = './data/train'
 TEST_DIR = './data/test'
 LABELS_FILE = './data/labels.csv'
-FRAME_SIZE = (64, 64)  # フレームのサイズを64x64にリサイズ
+FRAME_SIZE = (480, 640)  # フレームのサイズを64x64にリサイズ
 NUM_FRAMES = 30  # 各動画から抽出するフレーム数
 
-def load_video_frames(video_path, frame_size=(64, 64), num_frames=30):
+def load_video_frames(video_path, frame_size=(480, 640), num_frames=30):
     """
     動画ファイルを読み込み、指定した数のフレームをリサイズして取得する関数
     """

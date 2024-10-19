@@ -56,7 +56,7 @@ def build_model(input_shape, num_scores=3):
     return model
 
 # モデルの入力形状（例: 30フレーム、64x64ピクセル、3チャンネル）
-input_shape = (30, 64, 64, 3)
+input_shape = (30, 480, 640, 3)
 
 # モデルの構築
 model = build_model(input_shape, num_scores=3)
