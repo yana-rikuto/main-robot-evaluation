@@ -20,7 +20,7 @@ def build_model(input_shape, num_scores=3):
     """
     model = models.Sequential()
 
-    # 3D畳み込み層1: 動画の空間的特徴を抽出
+    # 3D畳み込み層1: 動画の空間的特徴を抽出（LSTM層や全結合層（Dense層）におけるノード数を指定）
     model.add(layers.Conv3D(32, kernel_size=(3, 3, 3), activation='relu', input_shape=input_shape))
     model.add(layers.MaxPooling3D(pool_size=(2, 2, 2)))
 
@@ -35,7 +35,7 @@ def build_model(input_shape, num_scores=3):
     # フラット化: 3Dデータを1次元に変換
     model.add(layers.Flatten())
 
-    # リピートベクター: LSTM層への入力用にデータを複製
+    # リピートベクター: LSTM層への入力用にデータを複製（この値を増やすとモデルがより多くの時間情報を考慮します。）
     model.add(layers.RepeatVector(10))
 
     # LSTM層1: 時間的な依存関係を学習
