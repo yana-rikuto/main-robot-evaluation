@@ -25,7 +25,7 @@ def load_video_frames(video_path, frame_size=(64, 64), num_frames=30):
     return frames
 
 # カスタム損失関数の指定
-custom_objects = {'mse': tf.keras.losses.mean_squared_error}
+custom_objects = {'mse': tf.keras.losses.MeanSquaredError()}
 
 # モデルの読み込み
 print("モデルを読み込んでいます...")
@@ -33,7 +33,7 @@ model = load_model('./models/robot_dance_model.h5', custom_objects=custom_object
 print("モデルの読み込みが完了しました。")
 
 # 新しい動画ファイルのパス
-new_video_path = '../data/new_video.mp4'
+new_video_path = './data/test/new_video.mp4'
 
 # 動画をフレームに分割して前処理
 new_video_frames = load_video_frames(new_video_path)
