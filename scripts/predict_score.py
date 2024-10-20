@@ -44,6 +44,12 @@ if new_video_frames.shape[0] != 30:
 # モデル入力の形式に合わせて次元を追加
 new_video_frames = np.expand_dims(new_video_frames, axis=0)
 
+score_names = ['リズム', '創造性', '感情表現']
+
 # スコアの予測
 predicted_scores = model.predict(new_video_frames)
-print(f"予測されたスコア: {predicted_scores[0]}")
+
+# スコアをフォーマットして表示
+print("予測されたスコア:")
+for name, score in zip(score_names, predicted_scores[0]):
+    print(f"{name}: {score:.2f}")
