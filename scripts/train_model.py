@@ -75,17 +75,17 @@ plt.figure(figsize=(12, 4))
 
 # 損失関数のプロット
 plt.subplot(1, 2, 1)
-plt.plot(history.history['loss'], label='訓練損失')
-plt.title('損失関数の推移')
-plt.xlabel('エポック')
-plt.ylabel('損失')
+plt.plot(history.history['loss'], label='train loss')
+plt.title('Loss Over Epochs')
+plt.xlabel('Epochs')
+plt.ylabel('Loss')
 plt.legend()
 
 # 平均絶対誤差（MAE）のプロット
 plt.subplot(1, 2, 2)
-plt.plot(history.history['mae'], label='訓練MAE')
-plt.title('平均絶対誤差の推移')
-plt.xlabel('エポック')
+plt.plot(history.history['mae'], label='train MAE')
+plt.title('MAE Over Epochs')
+plt.xlabel('Epochs')
 plt.ylabel('MAE')
 plt.legend()
 
