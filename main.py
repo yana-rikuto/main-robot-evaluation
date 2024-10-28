@@ -22,7 +22,7 @@ def run_predict():
 def run_robot_evaluation():
     """ ロボットの動作評価を実行 """
     print("=== ロボット動作の評価を実行中 ===")
-    subprocess.run(['python', 'objective_evaluate/tecnique_evaluate.py'])
+    subprocess.run(['python', 'objective_evaluate/technique_evaluate.py'])
     print("=== ロボット動作の評価が完了しました ===\n")
 
 if __name__ == "__main__":
