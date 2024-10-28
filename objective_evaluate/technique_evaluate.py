@@ -36,10 +36,7 @@ def load_movements_from_json(file_path):
         return json.load(f)
 
 # メイン処理
-if __name__ == "__main__":
-    # サンプルJSONファイルのパス
-    json_file_path = "robot_movements.json"
-
+def main():
     # 動きのデータを読み込む
     movements = load_movements_from_json("./objective_evaluate/robotData.json")
 
@@ -54,3 +51,6 @@ if __name__ == "__main__":
 
     # 結果を表示
     print(f"総合評価スコア: {total_score}")
+
+if __name__ == "__main__":
+    main()
