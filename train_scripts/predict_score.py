@@ -3,7 +3,7 @@ from tensorflow.keras.models import load_model
 import numpy as np
 import cv2
 
-# 動画をフレームに分割する関数（preprocess.pyと同じ関数を使用）
+# 動画をフレームに分割する関数
 def load_video_frames(video_path, frame_size=(64, 64), num_frames=30):
     """
     動画ファイルを読み込み、指定した数のフレームをリサイズして取得する関数
@@ -24,32 +24,41 @@ def load_video_frames(video_path, frame_size=(64, 64), num_frames=30):
     frames = np.array(frames)
     return frames
 
-# カスタム損失関数の指定
-custom_objects = {'mse': tf.keras.losses.MeanSquaredError()}
+def predict_score(video_path='./data/test/new_video.mp4'):
+    """ 学習済みモデルを使って動画に対するスコアを予測する関数 """
+    
+    # カスタム損失関数の指定
+    custom_objects = {'mse': tf.keras.losses.MeanSquaredError()}
+    
+    # モデルの読み込み
+    print("モデルを読み込んでいます...")
+    model = load_model('./models/robot_dance_model.h5', custom_objects=custom_objects)
+    print("モデルの読み込みが完了しました。")
 
-# モデルの読み込み
-print("モデルを読み込んでいます...")
-model = load_model('./models/robot_dance_model.h5', custom_objects=custom_objects)
-print("モデルの読み込みが完了しました。")
+    # 動画をフレームに分割して前処理
+    new_video_frames = load_video_frames(video_path)
+    if new_video_frames.shape[0] != 30:
+        print("エラー: 動画のフレーム数が不足しています。")
+        return 0.0
 
-# 新しい動画ファイルのパス
-new_video_path = './data/test/new_video.mp4'
+    # モデル入力の形式に合わせて次元を追加
+    new_video_frames = np.expand_dims(new_video_frames, axis=0)
 
-# 動画をフレームに分割して前処理
-new_video_frames = load_video_frames(new_video_path)
-if new_video_frames.shape[0] != 30:
-    print("エラー: 動画のフレーム数が不足しています。")
-    exit()
+    score_names = ['リズム', '創造性', '感情表現']
 
-# モデル入力の形式に合わせて次元を追加
-new_video_frames = np.expand_dims(new_video_frames, axis=0)
+    # スコアの予測
+    predicted_scores = model.predict(new_video_frames)
 
-score_names = ['リズム', '創造性', '感情表現']
+    # スコアをフォーマットして表示
+    print("予測されたスコア:")
+    for name, score in zip(score_names, predicted_scores[0]):
+        print(f"{name}: {score:.2f}")
 
-# スコアの予測
-predicted_scores = model.predict(new_video_frames)
+    # スコアの合計を返す
+    total_predicted_score = sum(predicted_scores[0])
+    print(f"合計スコア: {total_predicted_score:.2f}")
+    
+    return total_predicted_score
 
-# スコアをフォーマットして表示
-print("予測されたスコア:")
-for name, score in zip(score_names, predicted_scores[0]):
-    print(f"{name}: {score:.2f}")
+if __name__ == "__main__":
+    predict_score()
