@@ -1,26 +1,32 @@
 import json
 
 # 動作のパターンに対する評価ルールを定義する関数
-def rule_forward_rotate_backward(movements):
+def rule_1(movements):
     """
     例: 前進 -> 回転 -> 後退 の順で動作があったら5点加点
     """
     for i in range(len(movements) - 2):
         if (
             movements[i]["action"] == "move forward" and
+            movements[i]["speed"] == 1 and
             movements[i + 1]["action"] == "rotate" and
             movements[i + 2]["action"] == "move backward"
         ):
             return 5
     return 0
 
-def rule_fast_forward(movements):
+def rule_2(movements):
     """
-    例: 前進の速度が5以上の動作が含まれていれば3点加点
+    例: 前進 -> 回転 -> 後退 の順で動作があったら5点加点
     """
-    for movement in movements:
-        if movement["action"] == "move forward" and movement["speed"] >= 5:
-            return 3
+    for i in range(len(movements) - 2):
+        if (
+            movements[i]["action"] == "move forward" and
+            movements[i]["speed"] == 1 and
+            movements[i + 1]["action"] == "rotate" and
+            movements[i + 2]["action"] == "move backward"
+        ):
+            return 5
     return 0
 
 # 評価関数
@@ -42,8 +48,8 @@ def main():
 
     # 評価ルールのリストを定義
     evaluation_rules = [
-        rule_forward_rotate_backward,
-        rule_fast_forward
+        rule_1,
+        rule_2
     ]
 
     # 動きの組み合わせを評価
