@@ -1,10 +1,14 @@
 import json
 
+success_number = 0
+
 # 動作のパターンに対する評価ルールを定義する関数
 def rule_1(movements):
     """
     例: 前進 -> 回転 -> 後退 の順で動作があったら5点加点
     """
+    global success_number  # グローバル変数として指定
+
     for i in range(len(movements) - 2):
         if (
             movements[i]["action"] == "move forward" and
@@ -12,6 +16,7 @@ def rule_1(movements):
             movements[i + 1]["action"] == "rotate" and
             movements[i + 2]["action"] == "move backward"
         ):
+            success_number += 1
             return 5
     return 0
 
@@ -19,6 +24,9 @@ def rule_2(movements):
     """
     例: 前進 -> 回転 -> 後退 の順で動作があったら5点加点
     """
+
+    global success_number  # グローバル変数として指定
+
     for i in range(len(movements) - 2):
         if (
             movements[i]["action"] == "move forward" and
@@ -26,6 +34,7 @@ def rule_2(movements):
             movements[i + 1]["action"] == "rotate" and
             movements[i + 2]["action"] == "move backward"
         ):
+            success_number += 1
             return 5
     return 0
 
@@ -50,6 +59,8 @@ def rule_time_penalty(movements, max_time=30, penalty_interval=3, max_penalty=10
 
 # 評価関数
 def evaluate_movements(movements, rules):
+    global success_number
+    success_number = 0  # カウントをリセット
     total_score = 0
     for rule in rules:
         total_score += rule(movements)  # 各ルールに従って加点
@@ -64,19 +75,29 @@ def load_movements_from_json(file_path):
 def main():
     # 動きのデータを読み込む
     movements = load_movements_from_json("./objective_evaluate/robotData.json")
-
     # 評価ルールのリストを定義
     evaluation_rules = [
         rule_1,
         rule_2,
-        rule_time_penalty # 演技時間に基づく減点ルール
+        rule_time_penalty, # 演技時間に基づく減点ルール
     ]
     
 
     # 動きの組み合わせを評価
-    total_score = evaluate_movements(movements, evaluation_rules) 
+    technique_score = evaluate_movements(movements, evaluation_rules) 
+
+    # 成功数に応じて加点（最大10点まで）
+    additional_score = min(success_number, 10)
+
+    # 総合スコアに成功数の加点を追加
+    total_score = additional_score + technique_score
+
+    print(f"成功した技の数: {success_number} - 加点: {additional_score}点")
+
+    print(f"技術得点: {technique_score}点")
+    
     # 結果を表示
-    print(f"総合評価スコア: {total_score}")
+    print(f"技術的総合スコア: {total_score}")
 
 if __name__ == "__main__":
     main()
