@@ -56,6 +56,27 @@ def rule_time_penalty(movements, max_time=30, penalty_interval=3, max_penalty=10
     
     return -penalty_points
 
+def rule_smoothness_bonus(movements, speed_threshold=1.0, rotation_speed_threshold=30.0, max_bonus=10):
+    """
+    滑らかさの評価: 速度や回転速度の変化が閾値以下であれば1点加点
+    最大10点の加点
+    """
+    bonus_points = 0
+
+    for i in range(1, len(movements)):
+        # 前の動作と現在の動作の速度と回転速度の差を計算
+        speed_diff = abs(movements[i]["speed"] - movements[i - 1]["speed"])
+        rotation_speed_diff = abs(movements[i]["rotationSpeed"] - movements[i - 1]["rotationSpeed"])
+
+        # 速度変化と回転速度変化が閾値以下であれば加点
+        if speed_diff <= speed_threshold and rotation_speed_diff <= rotation_speed_threshold:
+            bonus_points += 1
+            if bonus_points >= max_bonus:  # 最大加点に達したら終了
+                bonus_points = max_bonus
+                break
+
+    print(f"滑らかさ評価による加点: {bonus_points}点")
+    return bonus_points
 
 # 評価関数
 def evaluate_movements(movements, rules):
@@ -80,6 +101,7 @@ def main():
         rule_1,
         rule_2,
         rule_time_penalty, # 演技時間に基づく減点ルール
+        rule_smoothness_bonus
     ]
     
 
