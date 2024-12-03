@@ -1,0 +1,8 @@
+# requirements.txt
+tensorflow
+opencv-python
+numpy
+matplotlib
+scikit-learn
+pandas
+shap
