@@ -51,11 +51,13 @@ def predict_score(video_path='./data/test/new_video.mp4'):
 
     # スコアをフォーマットして表示
     print("予測されたスコア:")
+    print("")
     for name, score in zip(score_names, predicted_scores[0]):
         print(f"{name}: {score:.2f}")
 
     # スコアの合計を返す
     total_predicted_score = sum(predicted_scores[0])
+    print("")
     print(f"合計スコア: {total_predicted_score:.2f}")
     
     return total_predicted_score

@@ -52,7 +52,9 @@ def rule_time_penalty(movements, max_time=30, penalty_interval=3, max_penalty=10
     # 減点計算
     penalty_points = min(int(overtime // penalty_interval), max_penalty)
 
-    print(f"演技時間: {total_duration}秒 - 減点: {penalty_points}点")
+    print(f"演技時間: {total_duration}秒")
+    print("")
+    print(f"演技時間超過による減点: {penalty_points}点")
     
     return -penalty_points
 
@@ -116,6 +118,8 @@ def main():
 
     print(f"成功した技の数: {success_number} - 加点: {additional_score}点")
 
+    print("")
+    
     print(f"技術得点: {technique_score}点")
     
     # 結果を表示
