@@ -2,6 +2,8 @@ import tensorflow as tf
 from tensorflow.keras.models import load_model
 import numpy as np
 import cv2
+import csv
+import os
 
 # 動画をフレームに分割する関数
 def load_video_frames(video_path, frame_size=(64, 64), num_frames=30):
@@ -24,7 +26,21 @@ def load_video_frames(video_path, frame_size=(64, 64), num_frames=30):
     frames = np.array(frames)
     return frames
 
-def predict_score(video_path='./data/test/new_video.mp4'):
+def save_scores_to_csv(scores, score_names, output_path="./output/predicted_scores.csv"):
+    """
+    予測されたスコアをCSVファイルに保存する関数
+    """
+    # 保存ディレクトリが存在しない場合は作成
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    # スコアをCSVに書き込む
+    with open(output_path, 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(score_names)  # ヘッダーを書き込む
+        writer.writerow(scores)       # スコアを書き込む
+    print(f"予測スコアを {output_path} に保存しました。")
+
+def predict_score(video_path='./data/test/new_video.mp4', output_csv_path='./output/predict_scores.csv'):
     """ 学習済みモデルを使って動画に対するスコアを予測する関数 """
     
     # カスタム損失関数の指定
@@ -53,6 +69,9 @@ def predict_score(video_path='./data/test/new_video.mp4'):
     print("予測されたスコア:")
     for name, score in zip(score_names, predicted_scores[0]):
         print(f"{name}: {score:.2f}")
+
+    # スコアをCSVに保存
+    save_scores_to_csv(predicted_scores[0], score_names, output_csv_path)
 
     # スコアの合計を返す
     total_predicted_score = sum(predicted_scores[0])
