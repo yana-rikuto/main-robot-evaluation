@@ -25,9 +25,15 @@ def run_robot_evaluation():
     subprocess.run(['python', 'objective_evaluate/technique_evaluate.py'])
     print("=== ロボット動作の評価が完了しました ===\n")
 
+def run_shap_evaluation():
+    """ 特徴量の寄与度解析と改善提案の生成を実行 """
+    print("=== SHAP解析と改善提案を実行中 ===")
+    subprocess.run(['python', 'objective_evaluate/shap_evaluation.py'])
+    print("=== SHAP解析と改善提案が完了しました ===\n")
+
 if __name__ == "__main__":
     print("=== 全体のプロセスを開始します ===\n")
-    
+
     # 1. 動画の前処理を実行
     run_preprocess()
 
@@ -39,5 +45,8 @@ if __name__ == "__main__":
 
     # 4. ロボット動作の評価を実行
     run_robot_evaluation()
+
+    # 5. SHAP解析と改善提案を実行
+    run_shap_evaluation()
 
     print("=== 全てのプロセスが完了しました ===")
